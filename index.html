@@ -15,24 +15,118 @@
             color: #111827;
         }
         .cta-button {
-            background-color: #111827; /* Кнопки черные */
+            background-color: #111827;
             color: white;
             transition: all 0.3s ease;
         }
         .cta-button:hover {
             transform: translateY(-2px);
-            /* Свечение убрано */
         }
         .header {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
         }
-        .text-accent {
-            color: #FF4FB4;
-        }
         .link-accent {
             color: #FE4E4C;
         }
+
+        /* --- Стили для анимированного фона --- */
+        #hero-section {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(270deg, #FF4FB4, #FF823E, #FE4E4C, #E755EC);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            width: 100%; /* Фон на всю ширину */
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-content-container {
+            position: relative;
+            z-index: 2;
+            /* Тень для лучшей читаемости текста */
+            text-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Стили для панели управления и кнопки --- */
+        #controls-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 101;
+            transition: transform 0.3s ease;
+        }
+        #controls-toggle:hover {
+            transform: scale(1.1) rotate(30deg);
+        }
+        #controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            z-index: 100;
+            font-size: 14px;
+            width: 280px;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #controls.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        #controls h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        #controls label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        #controls input[type="range"] {
+            width: 100%;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        #controls span {
+            font-family: monospace;
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -41,11 +135,9 @@
     <header class="header fixed top-0 left-0 right-0 z-50">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
                 <div class="flex items-center gap-2">
                     <img src="https://raw.githubusercontent.com/iliawerner/yandex-browser-3683/7642435237dd1e4ff38b1d0030a19abee8ea3d01/%D0%9B%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF%20%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%20%D0%91%D1%80%D0%B0%D1%83%D0%B7%D0%B5%D1%80%20%5B%D0%A2%D0%B5%CC%88%D0%BC%D0%BD%D1%8B%D0%B8%CC%86%5D.svg" alt="Логотип Яндекс Браузер" class="h-6">
                 </div>
-                <!-- CTA Button -->
                 <a href="#" class="cta-button hidden sm:inline-block font-bold px-6 py-2 rounded-lg">
                     Установить
                 </a>
@@ -57,20 +149,57 @@
     <main class="pt-20">
 
         <!-- Block 1: Hero Section -->
-        <section class="text-center container mx-auto px-4 py-20 md:py-32">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                Браузер для новых открытий
-            </h1>
-            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10">
-                Яндекс Браузер возьмёт на&nbsp;себя рутину: кратко перескажет длинное видео, поможет сформулировать мысль в&nbsp;письме и&nbsp;переведет видео на&nbsp;ваш язык. Чтобы вы&nbsp;чувствовали себя увереннее на&nbsp;пути к&nbsp;своим целям.
-            </p>
-            <a href="#" class="cta-button inline-block font-bold text-lg px-10 py-4 rounded-lg">
-                Установить Яндекс Браузер
-            </a>
-            <div class="mt-16 md:mt-20 max-w-3xl mx-auto"> <!-- Картинка уменьшена -->
-                <img src="https://raw.githubusercontent.com/iliawerner/yandex-browser-3683/7642435237dd1e4ff38b1d0030a19abee8ea3d01/NTP-05-2025.png" alt="Скриншот интерфейса Яндекс Браузера" class="rounded-2xl w-full">
+        <section id="hero-section" class="text-center py-20 md:py-32">
+            <canvas id="hero-canvas"></canvas>
+            <div class="hero-content-container container mx-auto px-4">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight text-white">
+                    Браузер для новых открытий
+                </h1>
+                <p class="text-lg md:text-xl text-gray-100 max-w-3xl mx-auto mb-10">
+                    Яндекс Браузер возьмёт на&nbsp;себя рутину: кратко перескажет длинное видео, поможет сформулировать мысль в&nbsp;письме и&nbsp;переведет видео на&nbsp;ваш язык. Чтобы вы&nbsp;чувствовали себя увереннее на&nbsp;пути к&nbsp;своим целям.
+                </p>
+                <a href="#" class="cta-button inline-block font-bold text-lg px-10 py-4 rounded-lg">
+                    Установить Яндекс Браузер
+                </a>
+                <div class="mt-16 md:mt-20 max-w-3xl mx-auto">
+                    <img src="https://raw.githubusercontent.com/iliawerner/yandex-browser-3683/7642435237dd1e4ff38b1d0030a19abee8ea3d01/NTP-05-2025.png" alt="Скриншот интерфейса Яндекс Браузера" class="rounded-2xl w-full shadow-2xl">
+                </div>
             </div>
         </section>
+
+        <!-- Кнопка для открытия/закрытия панели управления -->
+        <div id="controls-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+
+        <!-- Панель управления анимацией -->
+        <div id="controls">
+            <h3>Настройки анимации</h3>
+            <div>
+                <label for="gridSize">Плотность: <span id="gridSizeValue">35</span></label>
+                <input type="range" id="gridSize" min="10" max="100" value="35">
+            </div>
+            <div>
+                <label for="dotSize">Размер точек: <span id="dotSizeValue">1.5</span></label>
+                <input type="range" id="dotSize" min="0.5" max="5" step="0.1" value="1.5">
+            </div>
+            <div>
+                <label for="blur">Размытие: <span id="blurValue">0.5</span></label>
+                <input type="range" id="blur" min="0" max="20" step="0.1" value="0.5">
+            </div>
+            <div>
+                <label for="speed">Скорость: <span id="speedValue">0.3</span></label>
+                <input type="range" id="speed" min="0.1" max="2" step="0.1" value="0.3">
+            </div>
+            <div>
+                <label for="waveFreq">Частота волны: <span id="waveFreqValue">1.0</span></label>
+                <input type="range" id="waveFreq" min="0.1" max="5" step="0.1" value="1.0">
+            </div>
+            <div>
+                <label for="waveWidth">Ширина волны: <span id="waveWidthValue">120</span></label>
+                <input type="range" id="waveWidth" min="20" max="400" step="5" value="120">
+            </div>
+        </div>
 
         <!-- Block 2: Summarization Feature -->
         <section class="py-20 md:py-28 bg-gray-50">
@@ -155,5 +284,156 @@
         </div>
     </footer>
 
+    <script>
+    (function () {
+        // --- Настройки и переменные ---
+        const canvas = document.getElementById("hero-canvas");
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext("2d");
+        let time = 0;
+        let lastTime = 0;
+        let dots = [];
+        let canvasWidth, canvasHeight, centerX, centerY;
+
+        // --- Параметры, управляемые с контролов ---
+        let gridSize = 35;
+        let dotSizeMultiplier = 1.5;
+        let blurValue = 0.5;
+        let globalSpeed = 0.3;
+        let waveFrequency = 1.0;
+        let waveWidth = 120;
+
+        // --- Элементы управления ---
+        const controlsPanel = document.getElementById('controls');
+        const controlsToggle = document.getElementById('controls-toggle');
+        const gridSizeSlider = document.getElementById('gridSize');
+        const dotSizeSlider = document.getElementById('dotSize');
+        const blurSlider = document.getElementById('blur');
+        const speedSlider = document.getElementById('speed');
+        const waveFreqSlider = document.getElementById('waveFreq');
+        const waveWidthSlider = document.getElementById('waveWidth');
+
+        const gridSizeValue = document.getElementById('gridSizeValue');
+        const dotSizeValue = document.getElementById('dotSizeValue');
+        const blurValueSpan = document.getElementById('blurValue'); 
+        const speedValue = document.getElementById('speedValue');
+        const waveFreqValue = document.getElementById('waveFreqValue');
+        const waveWidthValue = document.getElementById('waveWidthValue');
+
+        // --- Функции ---
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        // Функция для создания сетки точек
+        function createGrid() {
+            dots = [];
+            const spacingX = canvasWidth / (gridSize - 1);
+            const spacingY = canvasHeight / (gridSize - 1);
+            for (let r = 0; r < gridSize; r++) {
+                for (let c = 0; c < gridSize; c++) {
+                    dots.push({ x: c * spacingX, y: r * spacingY });
+                }
+            }
+        }
+
+        // Функция для установки размеров canvas и пересоздания сетки
+        function resizeCanvas() {
+            const heroSection = document.getElementById('hero-section');
+            canvasWidth = heroSection.clientWidth;
+            canvasHeight = heroSection.clientHeight;
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            centerX = canvasWidth / 2;
+            centerY = canvasHeight / 2;
+            createGrid(); // Пересоздаем сетку при изменении размера
+        }
+
+        // Основной цикл анимации
+        function animate(timestamp) {
+            if (!lastTime) lastTime = timestamp;
+            const deltaTime = timestamp - lastTime;
+            lastTime = timestamp;
+            time += deltaTime * 0.16 * globalSpeed;
+
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            
+            // Применяем размытие
+            ctx.filter = `blur(${blurValue}px)`;
+
+            const waveRadius = (time * waveFrequency) % (Math.max(canvasWidth, canvasHeight) * 0.7);
+
+            dots.forEach((dot) => {
+                const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
+                const distToWave = Math.abs(dist - waveRadius);
+                let displacement = 0;
+                if (distToWave < waveWidth / 2) {
+                    const wavePhase = (distToWave / (waveWidth / 2)) * Math.PI;
+                    displacement = easeInOutCubic(Math.sin(wavePhase)) * 10;
+                }
+                const angleToCenter = Math.atan2(dot.y - centerY, dot.x - centerX);
+                const dx = Math.cos(angleToCenter) * displacement;
+                const dy = Math.sin(angleToCenter) * displacement;
+                
+                const opacity = 0.1 + (Math.abs(displacement) / 10) * 0.4; 
+                const size = dotSizeMultiplier + (Math.abs(displacement) / 10) * (dotSizeMultiplier * 1.5);
+                
+                ctx.beginPath();
+                ctx.arc(dot.x + dx, dot.y + dy, size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.fill();
+            });
+            
+            // Сбрасываем фильтр, чтобы он не влиял на другие элементы
+            ctx.filter = 'none';
+
+            requestAnimationFrame(animate);
+        }
+
+        // --- Обработчики событий ---
+        function setupControls() {
+            controlsToggle.addEventListener('click', () => {
+                controlsPanel.classList.toggle('visible');
+            });
+
+            gridSizeSlider.addEventListener('input', (e) => {
+                gridSize = parseInt(e.target.value, 10);
+                gridSizeValue.textContent = gridSize;
+                createGrid();
+            });
+            dotSizeSlider.addEventListener('input', (e) => {
+                dotSizeMultiplier = parseFloat(e.target.value);
+                dotSizeValue.textContent = dotSizeMultiplier.toFixed(1);
+            });
+            blurSlider.addEventListener('input', (e) => {
+                blurValue = parseFloat(e.target.value);
+                blurValueSpan.textContent = blurValue.toFixed(1);
+            });
+            speedSlider.addEventListener('input', (e) => {
+                globalSpeed = parseFloat(e.target.value);
+                speedValue.textContent = globalSpeed.toFixed(1);
+            });
+            waveFreqSlider.addEventListener('input', (e) => {
+                waveFrequency = parseFloat(e.target.value);
+                waveFreqValue.textContent = waveFrequency.toFixed(1);
+            });
+            waveWidthSlider.addEventListener('input', (e) => {
+                waveWidth = parseInt(e.target.value, 10);
+                waveWidthValue.textContent = waveWidth;
+            });
+        }
+
+        // --- Инициализация ---
+        window.addEventListener("load", function () {
+            resizeCanvas();
+            setupControls();
+            requestAnimationFrame(animate);
+        });
+
+        window.addEventListener("resize", resizeCanvas);
+
+    })();
+    </script>
 </body>
 </html>
